@@ -1,26 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-
-// --- ViewModels (DTOs) for input ---
-public class ProjectCreateModel
-{
-    [Required]
-    public string Name { get; set; } = string.Empty;
-}
-
-public class ItemCreateModel
-{
-    [Required]
-    public string Name { get; set; } = string.Empty;
-    public string? ManufacturerNumber { get; set; }
-    public int LocationId { get; set; }
-    public string? SKU { get; set; }
-    public decimal? InPrice { get; set; }
-    public decimal? OutPrice { get; set; }
-    public ItemStatus Status { get; set; }
-    public string? Description { get; set; }
-    public int ProjectId { get; set; }
-}
+using Swashbuckle.AspNetCore.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -32,6 +12,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     "Host=localhost;Port=5432;Database=garage_db;Username=postgres;Password=password";
 builder.Services.AddDbContext<GarageInventoryContext>(options =>
     options.UseNpgsql(connectionString));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -169,4 +151,5 @@ app.MapDelete("/items/{id}", async (int id, GarageInventoryContext db) =>
     return Results.Ok();
 });
 
+app.UseSwagger();
 app.Run();
