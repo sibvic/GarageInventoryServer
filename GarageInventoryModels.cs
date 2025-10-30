@@ -7,6 +7,7 @@ public class Project
     [Required]
     public string Name { get; set; } = string.Empty;
     public DateTime CreationDate { get; set; }
+    public int LastIndex { get; set; } = 1;
 }
 
 public class Location

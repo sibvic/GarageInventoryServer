@@ -105,6 +105,14 @@ app.MapGet("/items/{id}", async (int id, GarageInventoryContext db) =>
 // Refactored: Use view model, set InDate server-side
 app.MapPost("/items", async (ItemCreateModel model, GarageInventoryContext db) =>
 {
+    var project = await db.Projects.FindAsync(model.ProjectId);
+    if (project is null) return Results.NotFound();
+    if (string.IsNullOrEmpty(model.SKU))
+    {
+        model.SKU = $"{model.ProjectId}-{project.LastIndex}";
+        project.LastIndex++;
+        db.Projects.Update(project);
+    }
     var item = new Item
     {
         Name = model.Name,
