@@ -5,6 +5,7 @@ public class ProjectCreateModel
 {
     [Required]
     public string Name { get; set; } = string.Empty;
+    public decimal? Price { get; set; }
 }
 
 public class ItemCreateModel
@@ -13,6 +14,7 @@ public class ItemCreateModel
     public string Name { get; set; } = string.Empty;
     public string? ManufacturerNumber { get; set; }
     public int LocationId { get; set; }
+    public decimal? Price { get; set; }
     public string? SKU { get; set; }
     public decimal? InPrice { get; set; }
     public decimal? OutPrice { get; set; }

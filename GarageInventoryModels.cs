@@ -8,6 +8,7 @@ public class Project
     public string Name { get; set; } = string.Empty;
     public DateTime CreationDate { get; set; }
     public int LastIndex { get; set; } = 1;
+    public decimal? Price { get; set; }
 }
 
 public class Location
