@@ -95,8 +95,20 @@ app.MapDelete("/locations/{id}", async (int id, GarageInventoryContext db) =>
 });
 
 // --- Items CRUD ---
-app.MapGet("/items", async (GarageInventoryContext db) =>
-    await db.Items.Include(i => i.Location).Include(i => i.Project).ToListAsync());
+app.MapGet("/items", async (int? projectId, GarageInventoryContext db) =>
+{
+    var query = db.Items
+        .Include(i => i.Location)
+        .Include(i => i.Project)
+        .AsQueryable();
+
+    if (projectId.HasValue)
+    {
+        query = query.Where(i => i.ProjectId == projectId.Value);
+    }
+
+    return await query.ToListAsync();
+});
 
 app.MapGet("/items/{id}", async (int id, GarageInventoryContext db) =>
     await db.Items.Include(i => i.Location).Include(i => i.Project).FirstOrDefaultAsync(i => i.Id == id)
