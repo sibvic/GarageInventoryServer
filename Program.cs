@@ -37,7 +37,8 @@ app.MapPost("/projects", async (ProjectCreateModel model, GarageInventoryContext
     var project = new Project
     {
         Name = model.Name,
-        CreationDate = DateTime.UtcNow
+        CreationDate = DateTime.UtcNow,
+        Price = model.Price
     };
     db.Projects.Add(project);
     await db.SaveChangesAsync();
@@ -49,6 +50,7 @@ app.MapPut("/projects/{id}", async (int id, Project updatedProject, GarageInvent
     var project = await db.Projects.FindAsync(id);
     if (project is null) return Results.NotFound();
     project.Name = updatedProject.Name;
+    project.Price = updatedProject.Price;
     await db.SaveChangesAsync();
     return Results.Ok(project);
 });
