@@ -107,6 +107,8 @@ app.MapGet("/items", async (int? projectId, GarageInventoryContext db) =>
         query = query.Where(i => i.ProjectId == projectId.Value);
     }
 
+    query = query.OrderByDescending(i => i.InDate);
+
     return await query.ToListAsync();
 });
 
