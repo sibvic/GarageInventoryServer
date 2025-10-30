@@ -109,7 +109,7 @@ app.MapPost("/items", async (ItemCreateModel model, GarageInventoryContext db) =
     if (project is null) return Results.NotFound();
     if (string.IsNullOrEmpty(model.SKU))
     {
-        model.SKU = $"{model.ProjectId}-{project.LastIndex}";
+        model.SKU = $"{model.ProjectId:D3}-{project.LastIndex:D5}";
         project.LastIndex++;
         db.Projects.Update(project);
     }
